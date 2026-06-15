@@ -1,0 +1,11 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+.wrangler
+.dev.vars
+
+# Dependency directories
+node_modules/
