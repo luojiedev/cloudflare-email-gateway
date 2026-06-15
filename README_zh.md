@@ -1,5 +1,9 @@
 # Cloudflare Email Gateway (中文文档)
 
+[English](./README.md) | [中文](#cloudflare-email-gateway-中文文档)
+
+---
+
 一个运行在 Cloudflare Workers 边缘节点的轻量级邮件发信网关。基于 **Resend API** 构建，支持通过自定义域名安全、快速地对外发送交易或通知邮件。
 
 ## ✨ 项目特性
