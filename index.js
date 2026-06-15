@@ -11,7 +11,6 @@ export default {
     try {
       // 2. 安全鉴权：检查请求头中的 Authorization 令牌
       const authHeader = request.headers.get("Authorization");
-      // 本地开发如果没有配置 CLIENT_TOKEN，则跳过鉴权方便调试
       if (env.CLIENT_TOKEN && authHeader !== `Bearer ${env.CLIENT_TOKEN}`) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), { 
           status: 401,
@@ -28,7 +27,16 @@ export default {
         });
       }
 
-      // 4. 转发请求给 Resend API
+      // 4. 获取发信人地址，如果未配置环境变量则抛出明显错误提示
+      const fromEmail = env.FROM_EMAIL;
+      if (!fromEmail) {
+        return new Response(JSON.stringify({ error: "Configuration Error: FROM_EMAIL environment variable is not defined." }), { 
+          status: 500,
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+
+      // 5. 转发请求给 Resend API
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -36,11 +44,11 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "Notification <i@mydomain.com>", // 替换为你的真实发信地址
+          from: fromEmail, // 动态使用环境变量
           to: Array.isArray(to) ? to : [to],
           subject: subject,
           text: text,
-          html: html // 支持发送富文本 HTML 邮件
+          html: html
         }),
       });
 
