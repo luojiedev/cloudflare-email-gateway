@@ -1,0 +1,5 @@
+name = "email-gateway"
+main = "index.js"
+compatibility_date = "2026-06-10"
+
+# 提示：RESEND_API_KEY 作为敏感 Secret，不要写在这里，发布后去 Cloudflare 网页端配置
